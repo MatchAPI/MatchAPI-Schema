@@ -1,0 +1,1069 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://matchapi.org/schema/matchapi-core-1.0.0.json",
+  "title": "MatchAPI Schema 1.0",
+  "description": "MatchAPI is a schema for defining financial messaging APIs",
+  "licenseInfo": {
+    "owner": "Esprow Pte. Ltd.",
+    "license": "Apache-2.0 with attribution",
+    "licenseUrl": "https://matchapi.org/license",
+    "licenseNotice": "This schema is the intellectual property of Esprow and is provided for implementation and adoption under the terms of the MatchAPI License. Redistribution is permitted provided that: 1) Attribution to Esprow is retained, 2) The schema is not modified and rebranded as an official MatchAPI version, 3) Use of the \"MatchAPI\" name is limited to compliant implementations. Copyright (c) 2025 Esprow Pte. Ltd. All rights reserved. For full licensing terms, visit: https://matchapi.org/license"
+  },
+  "type": "object",
+  "$defs": {
+    "message": {
+      "description": "Message definition",
+      "$ref": "#/$defs/complexElement",
+      "type": "object",
+      "unevaluatedProperties": false,
+      "properties": {
+        "msgType": {
+          "description": "Message type",
+          "type": "string"
+        },
+        "msgCategory": {
+          "description": "Message category (e.g. session, application, etc.)",
+          "type": "string"
+        },
+        "direction": {
+          "description": "Direction in which the message is used, from the API's point of view (e.g. in means a message sent from the client to the API)",
+          "enum": ["in", "out", "both"]
+        }
+      }
+    },
+    "component": {
+      "description": "Component definition",
+      "$ref": "#/$defs/complexElement",
+      "type": "object",
+      "unevaluatedProperties": false
+    },
+    "componentRef": {
+      "description": "Component reference",
+      "$ref": "#/$defs/childElement",
+      "type": "object",
+      "properties": {
+        "refType": { "const": "component" }
+      },
+      "unevaluatedProperties": false
+    },
+    "group": {
+      "description": "Group definition",
+      "allOf": [
+        {
+          "$ref": "#/$defs/complexElement"
+        },
+        {
+          "$ref": "#/$defs/groupProperties"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "headerRef": {
+          "description": "Reference to a group header element, which can be a simple field containing the number of repeating group instances, or a component or group providing additional information about the group instance",
+          "$ref": "#/$defs/elementReference"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "groupRef": {
+      "description": "Group reference",
+      "allOf": [
+        {
+          "$ref": "#/$defs/childElement"
+        },
+        {
+          "$ref": "#/$defs/groupProperties"
+        }
+      ],
+      "properties": {
+        "refType": { "const": "group" }
+      },
+      "type": "object",
+      "unevaluatedProperties": false
+    },
+    "field": {
+      "description": "Field definition",
+      "allOf": [
+        {
+          "$ref": "#/$defs/simpleElement"
+        },
+        {
+          "$ref": "#/$defs/fieldProperties"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "typeRef": {
+          "description": "Reference to the data type of the element",
+          "$ref": "#/$defs/elementReference"
+        }
+      },
+      "required": [
+        "typeRef"
+      ],
+      "unevaluatedProperties": false
+    },
+    "fieldRef": {
+      "description": "Field reference",
+      "allOf": [
+        {
+          "$ref": "#/$defs/childElement"
+        },
+        {
+          "$ref": "#/$defs/fieldProperties"
+        }
+      ],
+      "properties": {
+        "refType": { "const": "field" }
+      },
+      "type": "object",
+      "unevaluatedProperties": false
+    },
+    "dataType": {
+      "description": "Data type definition",
+      "$ref": "#/$defs/simpleElement",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "The type of this data type, such as primitive, derived, array, composite, etc.",
+          "type": "string",
+          "enum": [
+            "primitive",
+            "derived",
+            "enum",
+            "array",
+            "composite",
+            "bitset"
+          ]
+        },
+        "byteLength": {
+          "description": "Byte size of this data type, if it's of fixed length",
+          "type": "integer",
+          "minimum": 0
+        },
+        "terminatingChar": {
+          "description": "Character used to signify the end of the actual value of the field, for example \\0 for null-terminated strings",
+          "type": "string"
+        },
+        "paddingChar": {
+          "description": "Character used to pad the value, when the value is shorter than the field's length",
+          "type": "string"
+        },
+        "paddingSide": {
+          "description": "Whether the padding character is added left of (before) or right of (after) the value",
+          "enum": [ "left", "right" ]
+        },
+        "charSet": {
+          "description": "Default character set used for text data types, e.g. ASCII, UTF-8, etc.",
+          "type": "string"
+        },
+        "dataTypeEncodings": {
+          "description": "List of encoding-specific data types into which this data type is encoded",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/dataTypeEncoding"
+          }
+        }
+      },
+      "required": [ "type" ]
+    },
+    "primitiveDataType": { 
+      "$ref": "#/$defs/dataType",
+      "properties": {
+        "type": { "const": "primitive" }
+      },
+      "required": [ "type" ],
+      "unevaluatedProperties": false
+    },
+    "derivedDataType": {
+      "description": "Data type derived from a base type",
+      "$ref": "#/$defs/dataType",
+      "type": "object",
+      "properties": {
+        "type": { "const": "derived" },
+        "baseTypeRef": {
+          "description": "The base primitive type of this derived type",
+          "$ref": "#/$defs/elementReference"
+        }
+      },
+      "required": [ "type", "baseTypeRef" ],
+      "unevaluatedProperties": false
+    },
+    "enumDataType": {
+      "description": "Data type with enumerated values",
+      "$ref": "#/$defs/dataType",
+      "type": "object",
+      "properties": {
+        "type": { "const": "enum" },
+        "valuesTypeRef": {
+          "description": "The data type of the values of this enumerated type",
+          "$ref": "#/$defs/elementReference"
+        },
+        "values": {
+          "description": "List of allowed values if this data type is an enum",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/enumValue"
+          }
+        }
+      },
+      "required": [ "type", "valuesTypeRef", "values" ],
+      "unevaluatedProperties": false
+    },
+    "enumValue": {
+      "description": "Definition of a single valid value in a data type",
+      "$ref": "#/$defs/elementDefinition",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "The actual value of the field",
+          "type": "string"
+        },
+        "category": {
+          "description": "Custom category name or grouping of this value",
+          "type": "string"
+        }
+      },
+      "required": [ "value" ],
+      "unevaluatedProperties": false
+    },
+    "arrayDataType": {
+      "description": "Array data type representing a collection of elements of the same type",
+      "$ref": "#/$defs/dataType",
+      "type": "object",
+      "properties": {
+        "type": { "const": "array" },
+        "elementsTypeRef": {
+          "description": "The data type of elements in this array type",
+          "$ref": "#/$defs/elementReference"
+        },
+        "elementsUnique": {
+          "description": "Whether all elements in this array need to be unique or there can be duplicates",
+          "type": "boolean",
+          "default": false
+        },
+        "elementsOrdered": {
+          "description": "Whether the order of elements in this array is important",
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": [ "type", "elementsTypeRef" ],
+      "unevaluatedProperties": false
+    },
+    "compositeDataType": {
+      "description": "Composite data type containing member elements",
+      "$ref": "#/$defs/dataType",
+      "type": "object",
+      "properties": {
+        "type": { "const": "composite" },
+        "content": {
+          "description": "Child members of this composite data type",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/compositeDataTypeMember"
+          }
+        }
+      },
+      "required": [ "type", "content" ],
+      "unevaluatedProperties": false
+    },
+    "compositeDataTypeMember": {
+      "description": "Definition of a single member in a composite data type",
+      "$ref": "#/$defs/elementDefinition",
+      "type": "object",
+      "properties": {
+        "typeRef": {
+          "description": "Reference to the data type of the member",
+          "$ref": "#/$defs/elementReference"
+        },
+        "presence": {
+          "description": "Presence requirement (e.g. required, optional, etc.) for this member in the parent composite data type",
+          "type": "string",
+          "enum": [
+            "optional",
+            "required",
+            "constant"
+          ],
+          "default": "optional"
+        },
+        "value": {
+          "description": "Default or constant value of this member (can be a string or a reference to an enum value)",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/elementReference"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [ "typeRef" ],
+      "unevaluatedProperties": false
+    },
+    "bitsetDataType": {
+      "description": "A data type that uses single bits to encode information, usually each bit is a Boolean flag. Multi-bit ranges within the bitset are supported too.",
+      "$ref": "#/$defs/dataType",
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "bitset"
+        },
+        "bitLength": {
+          "description": "Total bit size of this data type (sum of all bitfield lengths)",
+          "type": "integer",
+          "minimum": 0
+        },
+        "content": {
+          "description": "Child members of this bitset data type",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/bitsetMember"
+          }
+        }
+      },
+      "required": [ "type", "bitLength", "content" ],
+      "unevaluatedProperties": false
+    },
+    "bitsetMember": {
+      "description": "Single bit or range in a bitset data type",
+      "$ref": "#/$defs/elementDefinition",
+      "type": "object",
+      "properties": {
+        "bitOffset": {
+          "description": "The position of the bit (starting from 0). By default, the position and bit length of elements determines their offset. This property is usually explicitly specified only for sparse bitsets.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "bitLength": {
+          "description": "Length in bits. Defaults to 1 for single-bit flags.",
+          "type": "integer",
+          "minimum": 1,
+          "default": 1
+        },
+        "presence": {
+          "type": "string",
+          "enum": [
+            "required", 
+            "ignored", 
+            "constant"
+          ],
+          "default": "required"
+        },
+        "value": {
+          "description": "Constant value, if applicable",
+          "type": "integer"
+        },
+        "values": {
+          "description": "List of supported integer values (for multi-bit ranges)",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/bitsetMemberValue"
+          }
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "bitsetMemberValue": {
+      "description": "Definition of a single valid value in a bitset data type",
+      "$ref": "#/$defs/elementDefinition",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "The actual value of the field",
+          "type": "integer"
+        }
+      },
+      "required": [ "value" ],
+      "unevaluatedProperties": false
+    },
+    "dataTypeEncoding": {
+      "description": "Definition of an encoding-specific data type",
+      "allOf": [
+        {
+          "$ref": "#/$defs/elementAnnotation"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "encoding": {
+          "description": "Name of encoding, e.g. tag-value, JSON, SBE, etc.",
+          "type": "string"
+        },
+        "typeName": {
+          "description": "Name of data type in the specified encoding",
+          "type": "string"
+        },
+        "valuePattern": {
+          "description": "Regex describing acceptable patterns for the value of this field",
+          "type": "string",
+          "format": "regex"
+        },
+        "minimum": {
+          "description": "Minimum value allowed (inclusive)",
+          "type": "string"
+        },
+        "maximum": {
+          "description": "Maximum value allowed (inclusive)",
+          "type": "string"
+        },
+        "byteLength": {
+          "description": "Byte size of this data type, if it's of fixed length",
+          "type": "integer",
+          "minimum": 0
+        },
+        "terminatingChar": {
+          "description": "Character used to signify the end of the actual value of the field, for example \\0 for null-terminated strings",
+          "type": "string"
+        },
+        "paddingChar": {
+          "description": "Character used to pad the value, when the value is shorter than the field's length",
+          "type": "string"
+        },
+        "paddingSide": {
+          "description": "Whether the padding character is added left of (before) or right of (after) the value",
+          "enum": [ "left", "right" ]
+        },
+        "encodingSpecificData": {
+          "description": "Arbitrary encoding-specific data",
+          "type": "string"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "variant": {
+      "description": "Variant (different forms of the same element used for different use-cases) definition",
+      "allOf": [
+        {
+          "$ref": "#/$defs/elementDefinition"
+        }
+      ],
+      "type": "object",
+      "unevaluatedProperties": false
+    },
+    "changeLogEntry": {
+      "description": "Description of a single change to an element",
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "changeType": {
+          "description": "The type of change made to the element",
+          "type": "string",
+          "enum": [
+            "added",
+            "updated",
+            "replaced",
+            "deprecated"
+          ]
+        },
+        "version": {
+          "description": "The version of the API that this change applies to",
+          "type": "string"
+        },
+        "changeScope": {
+          "description": "Whether the change affects the API structure or if it's just an editorial change",
+          "type": "string",
+          "enum": [
+            "definitional",
+            "editorial"
+          ]
+        },
+        "replacedBy": {
+          "description": "If this is a replacement or deprecation, the element to use in place of this one",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "The date and time when the change was made",
+          "type": "string",
+          "format": "date-time"
+        },
+        "trackingReference": {
+          "description": "External tracking reference (e.g. ticket ID or URL) related to this change",
+          "type": "string"
+        },
+        "author": {
+          "description": "The author of the change",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the change",
+          "type": "string"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "changeLog": {
+      "description": "List of changes to an element",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/changeLogEntry"
+      }
+    },
+    "documentationEntry": {
+      "description": "A single documentation entry for an element",
+      "type": "object",
+      "properties": {
+        "role": {
+          "description": "The role of this documentation entry, such as summary, explanation, example, etc.",
+          "type": "string"
+        },
+        "text": {
+          "description": "The actual documentation text",
+          "type": "string"
+        },
+        "contentType": {
+          "description": "The MIME content type of the documentation text, e.g. text/plain, text/markdown, text/html, etc.",
+          "type": "string",
+          "default": "text/plain"
+        },
+        "language": {
+          "description": "RFC 1766 language tag of the language used for the documentation text, e.g. en-us, ja, etc.",
+          "type": "string"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "documentation": {
+      "description": "List of documentation entries for an element",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/documentationEntry"
+      }
+    },
+    "additionalDataEntry": {
+      "description": "A single additional data entry for an element",
+      "type": "object",
+      "properties": {
+        "role": {
+          "description": "The role of this additional data entry",
+          "type": "string"
+        },
+        "data": {
+          "description": "The actual additional data",
+          "type": "string"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "additionalData": {
+      "description": "List of additional data entries (used to define custom, implementation-specific data and mappings) for an element",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/additionalDataEntry"
+      }
+    },
+    "complexElement": {
+      "description": "Definition of a complex element (contains child elements, i.e. references to other elements), which can have variants",
+      "$ref": "#/$defs/simpleElement",
+      "type": "object",
+      "properties": {
+        "content": {
+          "description": "Child elements (references to other element definitions) of this complex element",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "oneOf": [
+              {"$ref": "#/$defs/componentRef"},
+              {"$ref": "#/$defs/groupRef"},
+              {"$ref": "#/$defs/fieldRef"}
+            ]
+          }
+        },
+        "contentComposition": {
+          "description": "Composition type of child elements (allOf - all required child elements must be present and optional child elements may be present, oneOf - exactly one child element must be present)",
+          "type": "string",
+          "enum": ["allOf", "oneOf"],
+          "default": "allOf"
+        },
+        "contentOrdering": {
+          "description": "Whether child elements must be in the defined order",
+          "type": "string",
+          "enum": ["ordered", "unordered"],
+          "default": "ordered"
+        }
+      },
+      "required": [ "content" ]
+    },
+    "simpleElement": {
+      "description": "Definition of a simple element (doesn't contain any child elements), which can have variants",
+      "allOf": [
+        {
+          "$ref": "#/$defs/elementDefinition"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "variant": {
+          "description": "Variant of this element instance",
+          "type": "string",
+          "default": "base"
+        },
+        "category": {
+          "description": "Category that this element belongs to",
+          "type": "string"
+        }
+      }
+    },
+    "elementDefinition": {
+      "description": "Definition of a generic element",
+      "allOf": [
+        {
+          "$ref": "#/$defs/elementId"
+        },
+        {
+          "$ref": "#/$defs/elementName"
+        },
+        {
+          "$ref": "#/$defs/elementAnnotation"
+        }
+      ],
+      "type": "object"
+    },
+    "elementId": {
+      "description": "Element identifier related properties",
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "description": "Unique identifier (UUID) of this element",
+          "type": "string",
+          "format": "uuid"
+        },
+        "id": {
+          "description": "A protocol-specific identifier of this element. For example, for the FIX protocol, this can be used to store field tags.",
+          "type": "string"
+        }
+      }
+    },
+    "elementName": {
+      "description": "Element name related additional properties",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of this element",
+          "type": "string"
+        },
+        "shortName": {
+          "description": "Short, abbreviated name of this element",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "Human-readable name of this element",
+          "type": "string"
+        }
+      },
+      "required": [ "name" ]
+    },
+    "childElement": {
+      "description": "Child element (reference to an element definition) within a complex element",
+      "$ref": "#/$defs/elementAnnotation",
+      "type": "object",
+      "properties": {
+        "refType": {
+          "type": "string",
+          "enum": [ "component", "group", "field" ]
+        },
+        "refKey": {
+          "$ref": "#/$defs/elementReference"
+        },
+        "refName": {
+          "description": "If a different name (compared to the element definition's name) should be used for this reference",
+          "type": "string"
+        },
+        "presence": {
+          "description": "Presence requirement (e.g. required, optional, etc.) for this child element in the parent complex element",
+          "type": "string",
+          "enum": [
+            "optional",
+            "required",
+            "conditionallyRequired",
+            "ignored",
+            "forbidden",
+            "constant"
+          ],
+          "default": "optional"
+        },
+        "offset": {
+          "description": "Byte offset of this element in the message. Applicable to binary protocols",
+          "type": "integer",
+          "minimum": 0
+        },
+        "paddedLength": {
+          "description": "The total, fixed length of the element, including any necessary padding. This can be useful in binary protocols if variable-length content should always be padded to a fixed length.",
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [ "refType", "refKey" ]
+    },
+    "elementReference": {
+      "description": "Reference to an element definition. It must use the same properties as the primary key defined for the type of element that's being referenced. Additional properties, in addition to the general ones specified below, can be used.",
+      "type": "object",
+      "properties": {
+        "uuid": { 
+          "description": "Identifier (UUID) of the referenced element",
+          "type": "string",
+          "format": "uuid"
+        },
+        "id": { 
+          "description": "Protocol-specific identifier of the referenced element",
+          "type": "string"
+        },
+        "name": { 
+          "description": "Name of the referenced element",
+          "type": "string" 
+        },
+        "variant": {
+          "description": "Variant of the referenced element",
+          "type": "string",
+          "default": "base"
+        }
+      }
+    },
+    "elementAnnotation": {
+      "description": "Auxiliary information (such as documentation, additional data, and change log) for an element",
+      "type": "object",
+      "properties": {
+        "documentation": {
+          "$ref": "#/$defs/documentation"
+        },
+        "additionalData": {
+          "$ref": "#/$defs/additionalData"
+        },
+        "changeLog": {
+          "$ref": "#/$defs/changeLog"
+        }
+      }
+    },
+    "fieldProperties": {
+      "description": "Common properties for field definitions and references",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Default or constant value of this field (can be a string or a reference to an enum value)",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/elementReference"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "minValue": {
+          "description": "Minimum value (inclusive) of this field",
+          "type": "number"
+        },
+        "maxValue": {
+          "description": "Maximum value (inclusive) of this field",
+          "type": "number"
+        },
+        "lengthHeaderRef": {
+          "description": "Reference to another element specifying the length of this field",
+          "$ref": "#/$defs/elementReference"
+        },
+        "valueQualifierRef": {
+          "description": "Reference to another field that qualifies and provides context for interpreting the value of this field. For example, for a Symbol field, the value qualifier will be another field that specifies what instrument identifier (ISIN, RIC, BBG, etc.) is used.",
+          "$ref": "#/$defs/elementReference"
+        },
+        "allowOtherValues": {
+          "description": "If the field has a data type containing enumerated values, this property denotes whether additional values, not defined in the data type, are acceptable",
+          "type": "boolean",
+          "default": false
+        },
+        "valuePattern": {
+          "description": "Regex describing acceptable patterns for the value of this field",
+          "type": "string",
+          "format": "regex"
+        },
+        "minLength": {
+          "description": "Minimum allowed length (inclusive) of the value of this field. Generally used for length of a string field or number of elements in an array.",
+          "type": "integer"
+        },
+        "maxLength": {
+          "description": "Maximum allowed length (inclusive) of the value of this field. Generally used for length of a string field or number of elements in an array.",
+          "type": "integer"
+        },
+        "byteLength": {
+          "description": "Byte size of the value of this field. Overrides the value defined in the field's data type",
+          "type": "integer",
+          "minimum": 0
+        },
+        "charSet": {
+          "description": "Character set used for text field, e.g. ASCII, UTF-8, etc. Overrides the value defined in the field's data type",
+          "type": "string"
+        },
+        "terminatingChar": {
+          "description": "Character used to signify the end of the actual value of the field, for example \\0 for null-terminated strings. Overrides the value defined in the data type",
+          "type": "string"
+        },
+        "paddingChar": {
+          "description": "Character used to pad the value, when the value is shorter than the field's length. Overrides the value defined in the data type.",
+          "type": "string"
+        },
+        "paddingSide": {
+          "description": "Whether the padding character is added left of (before) or right of (after) the value. Overrides the value defined in the data type.",
+          "enum": [ "left", "right" ]
+        }
+      }
+    },
+    "groupProperties": {
+      "description": "Common properties for group definitions and references",
+      "type": "object",
+      "properties": {
+        "minInstances": {
+          "description": "Minimum allowed number of instances (inclusive) of this repeating group",
+          "type": "integer"
+        },
+        "maxInstances": {
+          "description": "Maximum allowed number of instances (inclusive) of this repeating group",
+          "type": "integer"
+        }
+      }
+    },
+    "keyPropertiesList": {
+      "description": "List of properties used as a unique key for an element",
+      "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [ "uuid", "id", "name", "msgType", "variant", "value" ]
+        },
+        "minItems": 1,
+        "uniqueItems": true
+    },
+    "keysDefinition": {
+      "description": "Definition of unique keys for a specific type of elements",
+      "type": "object",
+      "properties": {
+        "primaryKey": {
+          "description": "Primary unique key used to identify and reference an element",
+          "$ref": "#/$defs/keyPropertiesList"
+        },
+        "alternateKeys": {
+          "description": "Alternate keys used as additional uniqueness constraints",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/keyPropertiesList"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [ "primaryKey" ]
+    },
+    "category": {
+      "description": "Category (grouping for elements) definition",
+      "$ref": "#/$defs/elementDefinition",
+      "type": "object",
+      "properties": {
+        "section": {
+          "description": "Section that this category belongs to",
+          "type": "string"
+        },
+        "componentType": {
+          "enum": [ "message", "field" ]
+        },
+        "includeFile": {
+          "enum": [ "components", "fields" ]
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "section": {
+      "description": "Section (grouping for categories) definition",
+      "$ref": "#/$defs/elementDefinition",
+      "unevaluatedProperties": false
+    }
+  },
+  "properties": {
+    "$schema": {
+      "description": "MatchAPI Schema URI",
+      "type": "string"
+    },
+    "$comment": {
+      "description": "Comment about the API",
+      "type": "string"
+    },
+    "name": {
+      "description": "Name of the API",
+      "type": "string"
+    },
+    "id": {
+      "description": "Identifier (e.g. UUID, URL, etc.) of the API",
+      "type": "string"
+    },
+    "url": {
+      "description": "External link to the page or additional description of the API",
+      "type": "string"
+    },
+    "version": {
+      "description": "Version of the API",
+      "type": "string"
+    },
+    "protocolVersion": {
+      "description": "Protocol-specific version (e.g. FIX version) of the API",
+      "type": "string"
+    },
+    "endianness": {
+      "description": "Whether data is encoded in big or little endian format (applicable to binary APIs)",
+      "enum": [ "big", "little" ]
+    },
+    "keys": {
+      "description": "Keys define uniqueness constraints for different types of elements. For example, if the key for fields is \"name\", that means that there cannot be two fields with the same name. A key can contain one or more element attributes. The primary key is used for referencing elements from other elements. Alternate keys are additional uniqueness constraints, which are not used for referencing. If the primary key for some type is omitted, it will default to \"name\" and \"variant\". There are no alternate keys by default. An exception are enumerated values in data types, which use just \"name\" as the default primary key, and have \"value\" as a default alternate key.",
+      "type": "object",
+      "properties": {
+        "messages": {
+          "description": "Definition of unique keys for messages. If omitted, defaults to \"name\" and \"variant\" as the primary key, and no alternate keys.",
+          "$ref": "#/$defs/keysDefinition",
+          "unevaluatedProperties": false
+        },
+        "components": {
+          "description": "Definition of unique keys for components. If omitted, defaults to \"name\" and \"variant\" as the primary key, and no alternate keys.",
+          "$ref": "#/$defs/keysDefinition",
+          "unevaluatedProperties": false
+        },
+        "groups": {
+          "description": "Definition of unique keys for groups. If omitted, defaults to \"name\" and \"variant\" as the primary key, and no alternate keys.",
+          "$ref": "#/$defs/keysDefinition",
+          "unevaluatedProperties": false
+        },
+        "fields": {
+          "description": "Definition of unique keys for fields. If omitted, defaults to \"name\" and \"variant\" as the primary key, and no alternate keys.",
+          "$ref": "#/$defs/keysDefinition",
+          "unevaluatedProperties": false
+        },
+        "dataTypes": {
+          "description": "Definition of unique keys for data types. If omitted, defaults to \"name\" and \"variant\" as the primary key, and no alternate keys.",
+          "$ref": "#/$defs/keysDefinition",
+          "properties": {
+            "values": {
+              "description": "Definition of unique keys for enumerated values of data types. If omitted, defaults to \"name\" as the primary key, and \"value\" as the alternate key.",
+              "$ref": "#/$defs/keysDefinition"
+            }
+          },
+          "unevaluatedProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "metadata": {
+      "description": "Additional information about the API",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "contributor": {
+          "type": "string"
+        },
+        "rights": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "conformsTo": {
+          "type": "string"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "description": "List of messages defined in the API",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/message"
+          }
+        },
+        "components": {
+          "description": "List of components defined in the API",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/component"
+          }
+        },
+        "groups": {
+          "description": "List of groups defined in the API",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/group"
+          }
+        },
+        "fields": {
+          "description": "List of fields defined in the API",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        },
+        "dataTypes": {
+          "description": "List of data types defined in the API",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/$defs/primitiveDataType" },
+              { "$ref": "#/$defs/derivedDataType" },
+              { "$ref": "#/$defs/enumDataType" },
+              { "$ref": "#/$defs/arrayDataType" },
+              { "$ref": "#/$defs/compositeDataType" },
+              { "$ref": "#/$defs/bitsetDataType" }
+            ]
+          }
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "classifiers": {
+      "type": "object",
+      "properties": {
+        "variants": {
+          "description": "List of variants (different forms of the same element used for different use-cases) defined in the API",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/variant"
+          }
+        },
+        "categories": {
+          "description": "List of categories (grouping for elements) defined in the API",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/category"
+          }
+        },
+        "sections": {
+          "description": "List of sections (grouping for categories) defined in the API",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/section"
+          }
+        }
+      },
+      "unevaluatedProperties": false
+    }
+  },
+  "required": [ "name", "version", "content" ],
+  "additionalProperties": false
+}
