@@ -1,4 +1,19 @@
-# MatchAPI JSON Schema
+# Introduction to MatchAPI standard
+
+MatchAPI is a unified, machine-readable format designed to describe financial APIs for both FIX and non FIX protocols. It consolidates message definitions, data types, and business semantics, making it easier to integrate with modern API documentation tools, development pipelines, and testing systems. 
+
+:currency_exchange: **_In essence, MatchAPI acts as a bridge between the traditional financial messaging world and the modern API ecosystems._** :currency_exchange:
+
+MatchAPI was created to provide a consistent, open format for exchanging, validating, and testing APIs, enabling seamless interaction between legacy systems and modern architectures without dependence on proprietary tools or schemas.
+
+**Key Advantages:**
+
+:white_check_mark: **Open & Portable** – Easy to integrate with in-house systems and open-source tools.
+
+:white_check_mark: **Cross-Protocol** – Supports FIX, FIXML, SBE, REST, and more.
+
+:white_check_mark: **Future-Proof** – Designed for automation, AI-assisted analysis, and seamless DevOps integration.
+
 
 This repository contains the official MatchAPI JSON Schema standard and documentation.
 
