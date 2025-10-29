@@ -3,11 +3,11 @@
 MatchAPI is an open, unified, machine-readable standard designed to describe financial APIs for both FIX and non-FIX protocols. It is published under the Apache 2.0 License and currently supports JSON, JSON5, and YAML formats, with XML support coming soon.
 Its schema design consolidates message definitions, data types, and business semantics – making it ideal for integration with modern API documentation tools, development pipelines, and testing systems.
 
-:currency_exchange: **_In essence, MatchAPI acts as a bridge between the traditional financial messaging world and the modern API ecosystems._** :currency_exchange:
+**_In essence, MatchAPI acts as a bridge between the traditional financial messaging world and the modern API ecosystems._**
 
 MatchAPI was developed in collaboration with major financial institutions to provide a technology-neutral format for exchanging, validating, and testing APIs, enabling seamless interaction between legacy systems and modern architectures.
 
-**Key Advantages:**
+**MatchAPI Key Advantages:**
 
 - **Open & Portable** – Easy to integrate with in-house systems and open-source tools.
 
@@ -18,10 +18,19 @@ MatchAPI was developed in collaboration with major financial institutions to pro
 
 This repository contains the official MatchAPI JSON Schema standard and documentation.
 
+
+> [!IMPORTANT]
+> MatchAPI JSON Schema and provided documentation are the intellectual property of [Esprow Pte. Ltd](https://www.esprow.com/).
+> 
+> MatchAPI™ is a trademark of Esprow Pte. Ltd. All rights reserved.
+
+
 ## Licensing
 
 - The JSON Schema files are licensed under the **Apache License 2.0**, with an additional clause prohibiting misrepresentation and unauthorized rebranding.
 - The documentation is licensed under the **Creative Commons Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)** license. You may share it, but you may not modify or adapt it.
+
+For complete terms, please refer to [LICENSE](https://matchapi.org/license)
 
 ## Summary of Allowed Uses
 
