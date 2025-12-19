@@ -1,12 +1,17 @@
 <p align="center">
   <img
-    src="assets/Logo - MatchAPI.svg"
+    src="assets/Logo%20-%20MatchAPI.svg"
     alt="MatchAPI logo"
-    style="max-width: 420px; width: 100%; height: auto;"
+    style="max-width: 360px; width: 100%; height: auto;"
   >
 </p>
 
-<br>
+<p align="center">
+  <a href="schema/LICENSE">
+    <img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License">
+  </a>
+  <img src="https://img.shields.io/badge/type-schema-lightgrey.svg" alt="Schema">
+</p>
 
 <strong>In essence, MatchAPI bridges the gap between traditional financial messaging systems and modern API ecosystems across FIX, binary, and proprietary protocols.
 
