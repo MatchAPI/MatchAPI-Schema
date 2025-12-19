@@ -1,3 +1,11 @@
+<p align="center">
+  <img
+    src="assets/Logo - MatchAPI.svg"
+    alt="MatchAPI logo"
+    style="max-width: 420px; width: 90%; height: auto;"
+  >
+</p>
+
 # Introduction to MatchAPI schema
 
 MatchAPI is a unified, machine-readable standard for describing financial messaging interfaces across both FIX and non-FIX protocols.
@@ -9,7 +17,9 @@ MatchAPI introduces a technology-neutral schema that unifies these APIs under a 
 
 Its schema is defined using an open, JSON-compatible format and can be authored in JSON, JSON5, or YAML, with XML support planned. This makes MatchAPI well suited for modern development pipelines, CI/CD workflows, API documentation systems, and automated validation tooling.
 
+
 **In essence, MatchAPI bridges the gap between traditional financial messaging systems and modern API ecosystems.**
+
 
 MatchAPI was developed in collaboration with major financial institutions to provide a stable foundation for exchanging, validating, testing, and evolving financial APIs across heterogeneous environments.
 
