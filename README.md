@@ -13,8 +13,9 @@
   <img src="https://img.shields.io/badge/type-schema-lightgrey.svg" alt="Schema">
 </p>
 
-<strong>In essence, MatchAPI bridges the gap between traditional financial messaging systems and modern API ecosystems across FIX, binary, and proprietary protocols.
+<strong>In essence, MatchAPI bridges the gap between traditional financial messaging systems and modern API ecosystems across FIX, binary, and proprietary protocols.</strong>
 
+The current core schema version is [`matchapi-core-1.0.0.json`](schema/matchapi-core-1.0.0.json)
 
 ## Contents
 
@@ -129,7 +130,7 @@ Each message definition captures:
 
 - Business purpose and intent  
 - Required, optional, and conditional fields  
-- Structural layout and composition  
+- Structural layout and composition
 
 ---
 
@@ -137,31 +138,24 @@ Each message definition captures:
 
 MatchAPI is a general-purpose schema, particularly suited for:
 
-### API Communication with Counterparties
+- **API communication with counterparties**  
+  Sharing portable, machine-readable dictionaries that can be automatically ingested.
 
-Sharing portable, machine-readable dictionaries that can be automatically ingested.
+- **Normalization and interoperability**  
+  Mapping FIX variants, binary feeds, and proprietary APIs into a unified internal model.
 
-### Normalization and Interoperability
+- **Conformance and certification testing**  
+  Generating automated validation and test suites based on schema definitions.
 
-Mapping FIX variants, binary feeds, and proprietary APIs into a unified internal model.
+- **Internal self-validation**  
+  Ensuring implementations remain aligned with published specifications.
 
-### Conformance and Certification Testing
+- **Documentation generation**  
+  Producing up-to-date, human-readable documentation from a single authoritative source.
 
-Generating automated validation and test suites based on schema definitions.
+- **DevOps and CI/CD integration**  
+  Embedding schema validation into build pipelines to prevent incompatible changes.
 
-### Internal Self-Validation
-
-Ensuring implementations remain aligned with published specifications.
-
-### Documentation Generation
-
-Producing up-to-date, human-readable documentation from a single authoritative source.
-
-### DevOps and CI/CD Integration
-
-Embedding schema validation into build pipelines to prevent incompatible changes.
-
-This repository contains the official MatchAPI JSON Schema standard and documentation.
 
 > [!IMPORTANT]
 > MatchAPI JSON Schema and provided documentation are the intellectual property of [Esprow Pte. Ltd](https://www.esprow.com/).
