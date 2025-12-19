@@ -2,9 +2,24 @@
   <img
     src="assets/Logo - MatchAPI.svg"
     alt="MatchAPI logo"
-    style="max-width: 420px; width: 90%; height: auto;"
+    style="max-width: 420px; width: 100%; height: auto;"
   >
 </p>
+
+<br>
+
+<strong>In essence, MatchAPI bridges the gap between traditional financial messaging systems and modern API ecosystems across FIX, binary, and proprietary protocols.
+
+
+## Contents
+
+- [Introduction](#introduction-to-matchapi-schema)
+- [Motivation and Background](#motivation-and-background)
+- [Positioning MatchAPI](#positioning-matchapi-vs-existing-standards)
+- [Core Concepts](#core-concepts)
+- [Key Use Cases](#key-use-cases)
+- [Licensing](#licensing)
+- [Compliance and Branding](#matchapi-compliance-and-branding)
 
 # Introduction to MatchAPI schema
 
@@ -16,10 +31,6 @@ Modern financial systems operate across a wide range of technologies, including 
 MatchAPI introduces a technology-neutral schema that unifies these APIs under a common model.
 
 Its schema is defined using an open, JSON-compatible format and can be authored in JSON, JSON5, or YAML, with XML support planned. This makes MatchAPI well suited for modern development pipelines, CI/CD workflows, API documentation systems, and automated validation tooling.
-
-
-**In essence, MatchAPI bridges the gap between traditional financial messaging systems and modern API ecosystems.**
-
 
 MatchAPI was developed in collaboration with major financial institutions to provide a stable foundation for exchanging, validating, testing, and evolving financial APIs across heterogeneous environments.
 
