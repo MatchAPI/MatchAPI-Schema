@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/type-schema-lightgrey.svg" alt="Schema">
 </p>
 
-<strong>In essence, MatchAPI bridges the gap between traditional financial messaging systems and modern API ecosystems across FIX, binary, and proprietary protocols.</strong>
+<strong>MatchAPI is a machine-readable schema for describing financial messaging interfaces across binary, proprietary, and FIX protocols.</strong>
 
 The current core schema version is [`matchapi-core-1.0.0.json`](schema/matchapi-core-1.0.0.json)
 
@@ -29,16 +29,17 @@ The current core schema version is [`matchapi-core-1.0.0.json`](schema/matchapi-
 
 # Introduction to MatchAPI schema
 
-MatchAPI is a unified, machine-readable standard for describing financial messaging interfaces across both FIX and non-FIX protocols.
+MatchAPI is a unified, machine-readable standard for describing financial messaging interfaces across binary, proprietary, and FIX-based protocols.
 
-It provides a single, structured representation of message models, data types, business semantics, validation rules, workflows, and protocol-level configuration — designed to be portable, analyzable, and automation-ready.
+It provides a structured representation of message models, data types, business semantics, and protocol-level configuration, including structural constraints and descriptive metadata that may be used for validation.
 
-Modern financial systems operate across a wide range of technologies, including FIX, proprietary binary protocols, REST, WebSocket, FIXML, SBE, and venue-specific formats. Traditionally, each protocol family required its own documentation format, tooling, and integration approach.  
-MatchAPI introduces a technology-neutral schema that unifies these APIs under a common model.
+Modern financial systems operate across a wide range of technologies, including proprietary binary protocols, venue-specific formats, REST, WebSocket, SBE, FIXML, and FIX. Traditionally, each protocol family required its own documentation format, tooling, and integration approach.
 
-Its schema is defined using an open, JSON-compatible format and can be authored in JSON, JSON5, or YAML, with XML support planned. This makes MatchAPI well suited for modern development pipelines, CI/CD workflows, API documentation systems, and automated validation tooling.
+MatchAPI introduces a technology-neutral schema that allows these APIs to be described using a common model, independent of encoding, transport, or implementation language.
 
-MatchAPI was developed in collaboration with major financial institutions to provide a stable foundation for exchanging, validating, testing, and evolving financial APIs across heterogeneous environments.
+Its schema is defined using an open, JSON-compatible format and can be authored in JSON, JSON5, or YAML, with XML support planned. This makes MatchAPI suitable for modern development pipelines, CI/CD workflows, API documentation systems, and schema-driven tooling.
+
+MatchAPI v1.0 is intended as a foundational release. It establishes a stable core model on which additional capabilities may be layered over time, informed by practical usage and feedback from protocol owners, implementers, and integrators.
 
 ---
 
@@ -46,90 +47,64 @@ MatchAPI was developed in collaboration with major financial institutions to pro
 
 Financial institutions typically operate a mix of legacy and modern interfaces, including:
 
-- FIX with multiple session layers and encodings  
-- Venue-specific binary APIs  
-- Proprietary order-entry and market-data protocols  
-- REST/JSON and WebSocket interfaces for ancillary or post-trade services  
+- Proprietary and venue-specific binary protocols
+    
+- FIX with multiple session layers and encodings
+    
+- Proprietary order-entry and market-data protocols
+    
+- REST/JSON and WebSocket interfaces for ancillary or post-trade services
+    
 
 This diversity leads to recurring challenges:
 
-- Fragmented documentation formats (PDFs, spreadsheets, proprietary schemas)  
-- Non-standardized semantics, particularly for binary protocols  
-- Inconsistent validation and complex certification processes  
-- Limited reuse of tooling across venues and APIs  
-- High onboarding and long-term maintenance costs  
+- Fragmented documentation formats (PDFs, spreadsheets, proprietary schemas)
+    
+- Non-standardized semantics, particularly for binary protocols
+    
+- Inconsistent interpretation of message structures and constraints
+    
+- Limited reuse of tooling across venues and APIs
+    
+- High onboarding and long-term maintenance costs
+    
 
-MatchAPI was created to address these challenges by providing a shared, protocol-agnostic structure that captures both business-level intent and protocol-level details.  
-This enables APIs to be documented, validated, tested, and automated using a single source of truth.
-
----
-
-## Positioning MatchAPI vs Existing Standards
-
-MatchAPI draws inspiration from existing industry standards such as **QuickFIX XML and others**, while expanding beyond their scope.
-
-### Business Semantics First
-
-While **QuickFIX XML focuses on describing FIX message structure**, MatchAPI standardizes:
-
-- Business meaning  
-- Validation rules and constraints  
-- Workflow and behavioral semantics  
-- Permitted encoding and transport options  
-
-This allows documentation, validation logic, and test cases to be generated from the same definition.
-
-### Multi-Protocol and Encoding-Neutral by Design
-
-Existing standards based on **FIX tag-based encodings** are primarily optimized for FIX-style messages, making binary protocols harder to model and work with.
-
-MatchAPI is designed to support:
-
-- FIX (tag=value, FIXML, FAST, SBE)  
-- Proprietary and venue-specific binary protocols  
-- Hybrid and vendor-defined message formats  
-
-The schema is encoding-neutral, capable of describing both fixed-layout binary messages and self-describing formats.
-
-### Modern Authoring Formats
-
-MatchAPI uses JSON, JSON5, and YAML for authoring, making it compatible with:
-
-- Continuous Integration pipelines  
-- Modern API documentation frameworks  
-- Code generation tools  
-- Cloud-native and DevOps-oriented workflows  
-
-This contrasts with older XML-centric specifications and allows MatchAPI artifacts to be consumed using standard parsing, linting, and validation tooling.
+MatchAPI addresses these challenges by providing a shared, protocol-agnostic structure that captures both business-level intent and protocol-level details in a single source of truth.
 
 ---
 
 ## Core Concepts
 
-MatchAPI describes a protocol using a structured set of interconnected components:
+MatchAPI describes a protocol using a structured set of interconnected components.
 
 ### Data Types and Enumerations
 
 A normalized catalog of primitive and composite types, including:
 
-- Scalar types (integer, decimal, boolean, string)  
-- Encoded and binary representations  
-- Enumerations with explicit semantic meaning  
+- Scalar types (integer, decimal, boolean, string)
+    
+- Encoded and binary representations
+    
+- Enumerations with explicit semantic meaning
 
 ### Fields and Components
 
 Reusable definitions that specify:
 
-- Identifiers (tags, names, numeric IDs)  
-- Constraints and validation rules  
-- Optional metadata and extensions  
+- Identifiers (tags, names, numeric IDs)
+    
+- Structural constraints and descriptive conditions
+    
+- Optional metadata and extensions
 
 ### Message Definitions
 
 Each message definition captures:
 
-- Business purpose and intent  
-- Required, optional, and conditional fields  
+- Business purpose and intent
+    
+- Required, optional, and conditional fields
+    
 - Structural layout and composition
 
 ---
@@ -139,24 +114,32 @@ Each message definition captures:
 MatchAPI is a general-purpose schema, particularly suited for:
 
 - **API communication with counterparties**  
-  Sharing portable, machine-readable dictionaries that can be automatically ingested.
-
+    Sharing portable, machine-readable dictionaries that can be automatically ingested.
+    
 - **Normalization and interoperability**  
-  Mapping FIX variants, binary feeds, and proprietary APIs into a unified internal model.
-
-- **Conformance and certification testing**  
-  Generating automated validation and test suites based on schema definitions.
-
-- **Internal self-validation**  
-  Ensuring implementations remain aligned with published specifications.
-
+    Mapping proprietary APIs, binary feeds, and FIX variants into a unified internal model.
+    
+- **Conformance and certification support**  
+    Serving as input for automated validation and test tooling built around published schemas.
+    
+- **Internal self-consistency checks**  
+    Verifying that implementations remain aligned with published specifications.
+    
 - **Documentation generation**  
-  Producing up-to-date, human-readable documentation from a single authoritative source.
-
+    Producing up-to-date, human-readable documentation from a single authoritative source.
+    
 - **DevOps and CI/CD integration**  
-  Embedding schema validation into build pipelines to prevent incompatible changes.
+    Embedding schema checks into build pipelines to detect incompatible changes early.
+    
+---
 
+## Community Feedback
 
+MatchAPI is published as an open specification, and feedback from implementers and integrators is welcome.
+
+Comments, issues, and suggestions may be submitted via GitHub Issues. Feedback from users of financial protocols is particularly valuable in guiding how the standard evolves beyond its foundational scope.
+
+---
 > [!IMPORTANT]
 > MatchAPI JSON Schema and provided documentation are the intellectual property of [Esprow Pte. Ltd](https://www.esprow.com/).
 > 
