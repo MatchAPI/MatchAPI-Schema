@@ -33,11 +33,11 @@ MatchAPI is a unified, machine-readable standard for describing financial messag
 
 It provides a structured representation of message models, data types, business semantics, and protocol-level configuration, including structural constraints and descriptive metadata that may be used for validation.
 
-Modern financial systems operate across a wide range of technologies, including proprietary binary protocols, venue-specific formats, REST, WebSocket, SBE, FIXML, and FIX. Traditionally, each protocol family required its own documentation format, tooling, and integration approach.
+Modern financial systems operate across a wide range of technologies, including proprietary binary protocols, venue-specific formats, REST, WebSocket, FIX, SBE, and FIXML. Traditionally, each protocol family required its own documentation format, tooling, and integration approach.
 
 MatchAPI introduces a technology-neutral schema that allows these APIs to be described using a common model, independent of encoding, transport, or implementation language.
 
-Its schema is defined using an open, JSON-compatible format and can be authored in JSON, JSON5, or YAML, with XML support planned. This makes MatchAPI suitable for modern development pipelines, CI/CD workflows, API documentation systems, and schema-driven tooling.
+Its schema is defined using an open, JSON-compatible format and can be authored in JSON, JSON5, or YAML. This makes MatchAPI suitable for modern development pipelines, CI/CD workflows, API documentation systems, and schema-driven tooling.
 
 MatchAPI v1.0 is intended as a foundational release. It establishes a stable core model on which additional capabilities may be layered over time, informed by practical usage and feedback from protocol owners, implementers, and integrators.
 
@@ -49,9 +49,9 @@ Financial institutions typically operate a mix of legacy and modern interfaces, 
 
 - Proprietary and venue-specific binary protocols
     
-- FIX with multiple session layers and encodings
+- FIX with different session layers and encodings
     
-- Proprietary order-entry and market-data protocols
+- Proprietary, FIX, or SBE market-data protocols
     
 - REST/JSON and WebSocket interfaces for ancillary or post-trade services
     
@@ -87,11 +87,11 @@ A normalized catalog of primitive and composite types, including:
     
 - Enumerations with explicit semantic meaning
 
-### Fields and Components
+### Fields, Groups, and Components
 
 Reusable definitions that specify:
 
-- Identifiers (tags, names, numeric IDs)
+- Identifiers (names, numeric IDs, tags)
     
 - Structural constraints and descriptive conditions
     
