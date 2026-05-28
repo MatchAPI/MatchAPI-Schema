@@ -1,3 +1,11 @@
+<p align="center">
+  <img
+    src="assets/Logo%20-%20MatchAPI.svg"
+    alt="MatchAPI logo"
+    width="360"
+  >
+</p>
+
 # MatchAPI
 
 MatchAPI is a JSON Schema-based format for describing financial messaging APIs.
