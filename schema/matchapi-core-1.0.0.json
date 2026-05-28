@@ -6,8 +6,8 @@
   "licenseInfo": {
     "owner": "Esprow Pte. Ltd.",
     "license": "Apache-2.0 with attribution",
-    "licenseUrl": "https://matchapi.org/license",
-    "licenseNotice": "This schema is the intellectual property of Esprow and is provided for implementation and adoption under the terms of the MatchAPI License. Redistribution is permitted provided that: 1) Attribution to Esprow is retained, 2) The schema is not modified and rebranded as an official MatchAPI version, 3) Use of the \"MatchAPI\" name is limited to compliant implementations. Copyright (c) 2025 Esprow Pte. Ltd. All rights reserved. For full licensing terms, visit: https://matchapi.org/license"
+    "licenseUrl": "https://github.com/MatchAPI/MatchAPI-Schema/blob/main/LICENSE",
+    "licenseNotice": "This schema is the intellectual property of Esprow and is provided for implementation and adoption under the terms of the MatchAPI License. Redistribution is permitted provided that: 1) Attribution to Esprow is retained, 2) The schema is not modified and rebranded as an official MatchAPI version, 3) Use of the \"MatchAPI\" name is limited to compliant implementations. Copyright (c) 2026 Esprow Pte. Ltd. All rights reserved. For full licensing terms, visit: https://github.com/MatchAPI/MatchAPI-Schema/blob/main/LICENSE"
   },
   "type": "object",
   "$defs": {
