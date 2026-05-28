@@ -1,0 +1,125 @@
+{
+  "$schema": "https://matchapi.org/schema/matchapi-core-1.0.0.json",
+  "name": "Minimal Example Trading API",
+  "version": "1.0.0",
+  "metadata": {
+    "title": "Minimal MatchAPI Example",
+    "description": "A minimal valid MatchAPI dictionary used for documentation purposes.",
+    "publisher": "Example Publisher"
+  },
+  "content": {
+    "dataTypes": [
+      {
+        "name": "String",
+        "type": "primitive"
+      },
+      {
+        "name": "Integer",
+        "type": "primitive"
+      },
+      {
+        "name": "Decimal",
+        "type": "primitive"
+      },
+      {
+        "name": "SideCode",
+        "type": "enum",
+        "valuesTypeRef": {
+          "name": "String"
+        },
+        "values": [
+          {
+            "name": "Buy",
+            "value": "1"
+          },
+          {
+            "name": "Sell",
+            "value": "2"
+          }
+        ]
+      }
+    ],
+    "fields": [
+      {
+        "name": "ClOrdID",
+        "id": "11",
+        "typeRef": {
+          "name": "String"
+        }
+      },
+      {
+        "name": "Side",
+        "id": "54",
+        "typeRef": {
+          "name": "SideCode"
+        }
+      },
+      {
+        "name": "OrderQty",
+        "id": "38",
+        "typeRef": {
+          "name": "Decimal"
+        }
+      },
+      {
+        "name": "Symbol",
+        "id": "55",
+        "typeRef": {
+          "name": "String"
+        }
+      }
+    ],
+    "components": [
+      {
+        "name": "Instrument",
+        "content": [
+          {
+            "refType": "field",
+            "refKey": {
+              "name": "Symbol"
+            },
+            "presence": "required"
+          }
+        ]
+      }
+    ],
+    "messages": [
+      {
+        "name": "NewOrderSingle",
+        "msgType": "D",
+        "msgCategory": "application",
+        "direction": "in",
+        "content": [
+          {
+            "refType": "field",
+            "refKey": {
+              "name": "ClOrdID"
+            },
+            "presence": "required"
+          },
+          {
+            "refType": "component",
+            "refKey": {
+              "name": "Instrument"
+            },
+            "presence": "required"
+          },
+          {
+            "refType": "field",
+            "refKey": {
+              "name": "Side"
+            },
+            "presence": "required"
+          },
+          {
+            "refType": "field",
+            "refKey": {
+              "name": "OrderQty"
+            },
+            "presence": "required"
+          }
+        ]
+      }
+    ]
+  }
+}
