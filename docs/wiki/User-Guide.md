@@ -257,6 +257,8 @@ primary key: name
 alternate key: value
 ```
 
+For details and examples, see [[References and Keys|References-and-Keys]].
+
 ## Variants
 
 Elements may have a `variant` property. If omitted, the default variant is `base`.
@@ -346,3 +348,11 @@ A consumer should usually:
 ## Implementation note
 
 MatchAPI is a data format. It does not mandate a specific programming language, runtime, validator, or documentation generator.
+
+## Related pages
+
+- [[Getting Started|Getting-Started]]
+- [[Core Concepts|Core-Concepts]]
+- [[Consumer Guide|Consumer-Guide]]
+- [[Publisher Guide|Publisher-Guide]]
+- [[Validation]]

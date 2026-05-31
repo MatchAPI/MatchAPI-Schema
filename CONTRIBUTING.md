@@ -32,3 +32,13 @@ When opening a pull request:
 Schema changes should be treated as versioned specification changes.
 
 A schema change may affect downstream validators, documentation generators, and published dictionaries.
+
+## Release checklist
+
+Before publishing a schema release:
+
+1. Confirm schema changes are intentional and versioned.
+2. Update examples when schema behavior or recommended usage changes.
+3. Update `docs/wiki/` for documentation affected by the release.
+4. Confirm the Wiki sync workflow has run successfully on `main`.
+5. Link release notes to the matching repository tag so users can find the corresponding `docs/wiki/` documentation.

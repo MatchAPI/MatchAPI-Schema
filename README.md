@@ -46,12 +46,8 @@ schema/
   matchapi-core-1.0.0.json     Core MatchAPI JSON Schema
 
 docs/
-  getting-started.md           First steps for developers receiving a MatchAPI file
-  user-guide.md                Main user guide
-  core-concepts.md             Schema concepts and object model
-  validation.md                Validation guidance
-  publisher-guide.md           Guidance for API publishers
-  licensing-and-attribution.md Licensing, attribution, and branding guidance
+  README.md                    Documentation source notes
+  wiki/                        Versioned source files for the GitHub Wiki
 
 examples/
   minimal-api.matchapi.json    Minimal valid MatchAPI dictionary
@@ -86,18 +82,27 @@ The schema file is:
 schema/matchapi-core-1.0.0.json
 ```
 
-See [Validation](docs/validation.md) for details.
+See [Validation](docs/wiki/Validation.md) for details.
 
-## Main documentation
+## Documentation
 
-Start here:
+The latest documentation is available in the repository Wiki.
 
-- [Getting Started](docs/getting-started.md)
-- [User Guide](docs/user-guide.md)
-- [Core Concepts](docs/core-concepts.md)
-- [Validation](docs/validation.md)
-- [Publisher Guide](docs/publisher-guide.md)
-- [Licensing and Attribution](docs/licensing-and-attribution.md)
+The source for the Wiki lives in `docs/wiki/` so documentation is versioned with schema releases. For older schema versions, browse the matching repository tag and read `docs/wiki/`.
+
+Start here in the source documentation:
+
+- [Getting Started](docs/wiki/Getting-Started.md)
+- [User Guide](docs/wiki/User-Guide.md)
+- [Core Concepts](docs/wiki/Core-Concepts.md)
+- [References and Keys](docs/wiki/References-and-Keys.md)
+- [Consumer Guide](docs/wiki/Consumer-Guide.md)
+- [Publisher Guide](docs/wiki/Publisher-Guide.md)
+- [Validation](docs/wiki/Validation.md)
+- [Examples](docs/wiki/Examples.md)
+- [Versioning and Compatibility](docs/wiki/Versioning-and-Compatibility.md)
+- [Licensing and Attribution](docs/wiki/Licensing-and-Attribution.md)
+- [FAQ](docs/wiki/FAQ.md)
 
 ## Scope of the core schema
 

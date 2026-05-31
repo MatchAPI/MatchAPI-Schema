@@ -82,6 +82,8 @@ Each key definition has a required `primaryKey` and may also have `alternateKeys
 
 The primary key is used for references. Alternate keys are additional uniqueness constraints.
 
+For a fuller explanation, see [[References and Keys|References-and-Keys]].
+
 ## Data types
 
 MatchAPI Core defines the following data type kinds:
@@ -340,3 +342,10 @@ Supported `changeScope` values are:
 ```text
 definitional, editorial
 ```
+
+## Related pages
+
+- [[User Guide|User-Guide]]
+- [[References and Keys|References-and-Keys]]
+- [[Validation]]
+- [[Examples]]

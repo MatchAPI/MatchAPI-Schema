@@ -40,6 +40,8 @@ For public dictionaries, define keys explicitly if your API uses:
 - duplicate names across contexts;
 - protocol-specific identifiers.
 
+See [[References and Keys|References-and-Keys]].
+
 ## Use variants consistently
 
 Use `variant` when the same logical element has different forms for different use cases.
@@ -78,3 +80,10 @@ If publishing example dictionaries:
 MatchAPI is intended to be consumable by any toolchain that can parse JSON.
 
 Publishers should avoid presenting MatchAPI as dependent on a particular programming language or implementation toolkit.
+
+## Related pages
+
+- [[References and Keys|References-and-Keys]]
+- [[Validation]]
+- [[Versioning and Compatibility|Versioning-and-Compatibility]]
+- [[Licensing and Attribution|Licensing-and-Attribution]]

@@ -96,6 +96,8 @@ For published dictionaries, use at least two checks:
 
 The second check is outside the scope of the core JSON Schema, but it is important for production use.
 
+See [[References and Keys|References-and-Keys]] for guidance on reference resolution and key uniqueness.
+
 ## Common validation errors
 
 ### Unsupported property
@@ -153,3 +155,10 @@ The only permitted data type values are:
 ```text
 primitive, derived, enum, array, composite, bitset
 ```
+
+## Related pages
+
+- [[Getting Started|Getting-Started]]
+- [[References and Keys|References-and-Keys]]
+- [[Consumer Guide|Consumer-Guide]]
+- [[Publisher Guide|Publisher-Guide]]

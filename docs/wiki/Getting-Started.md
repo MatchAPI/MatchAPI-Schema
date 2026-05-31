@@ -46,7 +46,7 @@ Validation answers a structural question:
 
 It does not prove that the described API is semantically correct, implemented correctly, or commercially supported by the API publisher.
 
-See [Validation](validation.md).
+See [[Validation]].
 
 ## 3. Inspect the top-level structure
 
@@ -123,6 +123,8 @@ A message contains child element references inside `content`:
 
 The way references are resolved depends on the relevant primary key. If no custom key is defined, most element types default to `name` and `variant` as the primary key.
 
+See [[References and Keys|References-and-Keys]].
+
 ## 6. Read message definitions
 
 A message definition may include:
@@ -152,3 +154,10 @@ A MatchAPI dictionary can be used to drive:
 - change impact analysis.
 
 MatchAPI does not require a specific implementation language. The schema is JSON-compatible and can be consumed from any environment that can parse JSON.
+
+## Related pages
+
+- [[User Guide|User-Guide]]
+- [[Core Concepts|Core-Concepts]]
+- [[Consumer Guide|Consumer-Guide]]
+- [[Examples]]
